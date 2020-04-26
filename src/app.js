@@ -2,7 +2,25 @@ const express = require('express')
 const cors = require('cors')
 const routes = require('./routes')
 const { errors } = require('celebrate')
+const { Client } = require('pg')
 const app = express()
+
+const db = new Client({
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  host: process.env.PGHOST,
+  port: process.env.PGPORT,
+  database: process.env.PGDATABASE
+})
+/**
+* Exemplo de uso do Postgres:
+* db.connect()
+* .then(() => console.log("Postgres conectado"))
+* .then(() => db.query("select * from usuarios"))
+* .then(results => console.table(results.rows))
+* .catch(e => console.log(e))
+* .finally(() => { db.end(); console.log("Postgres desconectado"); })
+*/
 
 app.use(cors()) /* está 'app.use(cors())', porque estamos em desenv, caso fosse para produção seria "app.use(cors({ origin: 'url de hospedagem' }))" */
 app.use(express.json())
