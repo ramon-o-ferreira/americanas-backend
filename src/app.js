@@ -22,6 +22,11 @@ const db = new Client({
 * .finally(() => { db.end(); console.log("Postgres desconectado"); })
 */
 
+db.connect()
+.then(() => console.log("Postgres está funcionando corretamente"))
+.catch(e => console.log("Erro do Postgres: ", e))
+.finally(() => db.end())
+
 app.use(cors()) /* está 'app.use(cors())', porque estamos em desenv, caso fosse para produção seria "app.use(cors({ origin: 'url de hospedagem' }))" */
 app.use(express.json())
 app.use(routes)
