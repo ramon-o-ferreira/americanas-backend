@@ -30,7 +30,7 @@ routes.post('/users/add', celebrate({
         password: Joi.string().required().max(64),
         address: Joi.string().required(),
         document: Joi.string().max(18),
-        birthday: Joi.string().min(11).max(11),
+        birthday: Joi.string().min(10).max(10),
         image: Joi.string().required().max(20)
     })
 }), ClientController.addUser)
