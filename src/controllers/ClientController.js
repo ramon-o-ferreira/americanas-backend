@@ -11,7 +11,7 @@ module.exports = {
         database
             .connect()
             .then(() => console.log("Database Connected"))
-            .then(() => database.query('SELECT * FROM clientes ORDER BY id'))
+            .then(() => database.query('SELECT * FROM users ORDER BY id'))
             .then(results => res['users'] = results.rows)
             .catch(e => console.log("Database Error: ", e))
             .finally(() => {
@@ -30,7 +30,7 @@ module.exports = {
         database
             .connect()
             .then(() => console.log("Database Connected"))
-            .then(() => database.query('SELECT * FROM clientes WHERE id = $1', [id]))
+            .then(() => database.query('SELECT * FROM users WHERE id = $1', [id]))
             .then(results => {
                 if(results.rows[0]) {
                     res = results.rows[0]
@@ -53,7 +53,7 @@ module.exports = {
         database
             .connect()
             .then(() => console.log("Database Connected"))
-            .then(() => database.query("SELECT * FROM clientes WHERE email = $1", [email]))
+            .then(() => database.query("SELECT * FROM users WHERE email = $1", [email]))
             .then(results => {
                 if(results.rows[0]) {
                     res = results.rows[0]
@@ -68,15 +68,13 @@ module.exports = {
     },
     async addUser(request, response) {
         const {
-            username,
-            document,
-            image,
+            name,
             email,
             password,
             address,
+            document,
             birthday,
-            created_at,
-            updated_at
+            image
         } = request.body;
 
         let res = {}
@@ -90,17 +88,15 @@ module.exports = {
             .then(() => console.log("Database Connected"))
             .then(() => 
                 database.query(
-                    "INSERT INTO clientes(username, document, image, email, password, address, birthday, created_at, updated_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)",
+                    "INSERT INTO users(name, email, password, address, document, birthday, image) VALUES($1,$2,$3,$4,$5,$6,$7)",
                     [
-                        username,
-                        document,
-                        image,
+                        name,
                         email,
                         password,
                         address,
+                        document,
                         birthday,
-                        created_at,
-                        updated_at
+                        image
                     ]
                 )
             )
