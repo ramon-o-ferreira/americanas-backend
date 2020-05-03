@@ -57,7 +57,6 @@ module.exports = {
             .then(results => {
                 if(results.rows[0]) {
                     res = results.rows[0]
-                    console.log(results.rows[0])
                 }
             })
             .catch(e => console.log("Database Error: ", e))
