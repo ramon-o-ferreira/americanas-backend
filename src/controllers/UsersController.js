@@ -109,7 +109,8 @@ module.exports = {
             address,
             document,
             birthday,
-            image
+            image,
+            is_store
         } = request.body;
 
         let res = {}
