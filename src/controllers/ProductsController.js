@@ -1,5 +1,5 @@
 const { Client } = require('pg')
-const encode = 'latin1'
+const encode = 'latin9'
 
 module.exports = {
     async getProducts(request, response) {
