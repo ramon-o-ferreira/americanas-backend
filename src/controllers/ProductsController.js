@@ -1,4 +1,5 @@
 const { Client } = require('pg')
+const encode = 'latin1'
 
 module.exports = {
     async getProducts(request, response) {
@@ -6,7 +7,7 @@ module.exports = {
 
         const database = new Client({
             connectionString: process.env.DATABASE_URL,
-            client_encoding: 'latin1'
+            client_encoding: encode
         })
 
         database
@@ -26,7 +27,7 @@ module.exports = {
 
         const database = new Client({
             connectionString: process.env.DATABASE_URL,
-            client_encoding: 'latin1'
+            client_encoding: encode
         })
 
         database
@@ -50,7 +51,7 @@ module.exports = {
 
         const database = new Client({
             connectionString: process.env.DATABASE_URL,
-            client_encoding: 'latin1'
+            client_encoding: encode
         })
 
         database
@@ -70,7 +71,7 @@ module.exports = {
 
         const database = new Client({
             connectionString: process.env.DATABASE_URL,
-            client_encoding: 'latin1'
+            client_encoding: encode
         })
 
         database
@@ -100,7 +101,7 @@ module.exports = {
 
         const database = new Client({
             connectionString: process.env.DATABASE_URL,
-            client_encoding: 'latin1'
+            client_encoding: encode
         })
 
         database
@@ -139,7 +140,7 @@ module.exports = {
 
         const database = new Client({
             connectionString: process.env.DATABASE_URL,
-            client_encoding: 'latin1'
+            client_encoding: encode
         })
 
         database
