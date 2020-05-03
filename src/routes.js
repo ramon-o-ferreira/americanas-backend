@@ -8,6 +8,7 @@ const SessionController = require('./controllers/SessionController')
 const UsersController = require('./controllers/UsersController')
 const ProductsController = require('./controllers/ProductsController')
 const ProductsCategoriesController = require('./controllers/ProductsCategoriesController')
+const DistanceController = require('./controllers/DistanceController')
 
 const routes = express.Router();
 
@@ -100,6 +101,13 @@ routes.post('/products/categories/add', celebrate({
     })
 }), ProductsCategoriesController.addProductCategory)
 
+
+routes.post('/distance', celebrate({
+    [Segments.BODY]: Joi.object().keys({
+        from: Joi.string().required(),
+        to: Joi.string().required()
+    })
+}), DistanceController.getDistance)
 
 
 
