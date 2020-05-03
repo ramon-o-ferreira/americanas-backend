@@ -54,11 +54,7 @@ module.exports = {
             .connect()
             .then(() => console.log("Database Connected"))
             .then(() => database.query("SELECT * FROM products WHERE category_id = $1", [category_id]))
-            .then(results => {
-                if(results.rows[0]) {
-                    res = results.rows[0]
-                }
-            })
+            .then(results => res['products'] = results.rows)
             .catch(e => console.log("Database Error: ", e))
             .finally(() => {
                 database.end()
@@ -77,11 +73,7 @@ module.exports = {
             .connect()
             .then(() => console.log("Database Connected"))
             .then(() => database.query('SELECT * FROM products WHERE owner_id = $1', [owner_id]))
-            .then(results => {
-                if(results.rows[0]) {
-                    res = results.rows[0]
-                }
-            })
+            .then(results => res['products'] = results.rows)
             .catch(e => console.log("Database Error: ", e))
             .finally(() => {
                 database.end()
