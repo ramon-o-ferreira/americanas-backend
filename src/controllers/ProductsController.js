@@ -5,7 +5,8 @@ module.exports = {
         let res = {}
 
         const database = new Client({
-            connectionString: process.env.DATABASE_URL
+            connectionString: process.env.DATABASE_URL,
+            client_encoding: 'latin1'
         })
 
         database
@@ -24,7 +25,8 @@ module.exports = {
         let res = {}
 
         const database = new Client({
-            connectionString: process.env.DATABASE_URL
+            connectionString: process.env.DATABASE_URL,
+            client_encoding: 'latin1'
         })
 
         database
@@ -47,7 +49,8 @@ module.exports = {
         let res = {}
 
         const database = new Client({
-            connectionString: process.env.DATABASE_URL
+            connectionString: process.env.DATABASE_URL,
+            client_encoding: 'latin1'
         })
 
         database
@@ -66,7 +69,8 @@ module.exports = {
         let res = {}
 
         const database = new Client({
-            connectionString: process.env.DATABASE_URL
+            connectionString: process.env.DATABASE_URL,
+            client_encoding: 'latin1'
         })
 
         database
@@ -95,7 +99,8 @@ module.exports = {
         let res = {}
 
         const database = new Client({
-            connectionString: process.env.DATABASE_URL
+            connectionString: process.env.DATABASE_URL,
+            client_encoding: 'latin1'
         })
 
         database
@@ -133,7 +138,8 @@ module.exports = {
         let res = {}
 
         const database = new Client({
-            connectionString: process.env.DATABASE_URL
+            connectionString: process.env.DATABASE_URL,
+            client_encoding: 'latin1'
         })
 
         database
