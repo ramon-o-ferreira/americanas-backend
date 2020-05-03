@@ -6,6 +6,7 @@ const IncidentController = require('./controllers/IncidentController')
 const ProfileController = require('./controllers/ProfileController')
 const SessionController = require('./controllers/SessionController')
 const UsersController = require('./controllers/UsersController')
+const ProductsCategories = require('./controllers/ProductsCategoriesController')
 
 const routes = express.Router();
 
@@ -34,6 +35,22 @@ routes.post('/users/add', celebrate({
         image: Joi.string().max(20).default("default.jpg")
     })
 }), UsersController.addUser)
+
+
+routes.get('/products/categories', ProductsCategories.getProductsCategories)
+
+routes.get('/products/categories/id/:id', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        id: Joi.number().required(),
+    })
+}), ProductsCategories.getProductCategoryById)
+
+routes.post('/products/categories/add', celebrate({
+    [Segments.BODY]: Joi.object().keys({
+        title: Joi.string().required().max(32),
+        description: Joi.string().required()
+    })
+}), ProductsCategories.addProductCategory)
 
 
 
