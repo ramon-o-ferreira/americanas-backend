@@ -17,7 +17,6 @@ module.exports = {
             .then(results => res['users'] = results.rows)
             .catch(e => console.log("Database Error: ", e))
             .finally(() => {
-                console.log(res)
                 database.end()
 
                 response.set('Content-Type', 'application/json; charset=iso-8859-1')
