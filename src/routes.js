@@ -14,6 +14,10 @@ const routes = express.Router();
 
 routes.get('/users', UsersController.getUsers)
 
+routes.get('/users/stores', UsersController.getStores)
+
+routes.get('/users/clients', UsersController.getClients)
+
 routes.get('/users/id/:id', celebrate({
     [Segments.PARAMS]: Joi.object().keys({
         id: Joi.number().required(),
@@ -34,7 +38,8 @@ routes.post('/users/add', celebrate({
         address: Joi.string().required(),
         document: Joi.string().max(18),
         birthday: Joi.string().min(10).max(10),
-        image: Joi.string().max(20).default("default.jpg")
+        image: Joi.string().max(20).default("default.jpg"),
+        is_store: Joi.boolean().default(false)
     })
 }), UsersController.addUser)
 

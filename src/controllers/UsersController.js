@@ -19,6 +19,42 @@ module.exports = {
                 return response.json(res)
             })
     },
+    async getStores(request, response) {
+        let res = {}
+
+        const database = new Client({
+            connectionString: process.env.DATABASE_URL
+        })
+
+        database
+            .connect()
+            .then(() => console.log("Database Connected"))
+            .then(() => database.query('SELECT * FROM users WHERE is_store = true ORDER BY id'))
+            .then(results => res['stores'] = results.rows)
+            .catch(e => console.log("Database Error: ", e))
+            .finally(() => {
+                database.end()
+                return response.json(res)
+            })
+    },
+    async getClients(request, response) {
+        let res = {}
+
+        const database = new Client({
+            connectionString: process.env.DATABASE_URL
+        })
+
+        database
+            .connect()
+            .then(() => console.log("Database Connected"))
+            .then(() => database.query('SELECT * FROM users WHERE is_store = false ORDER BY id'))
+            .then(results => res['clients'] = results.rows)
+            .catch(e => console.log("Database Error: ", e))
+            .finally(() => {
+                database.end()
+                return response.json(res)
+            })
+    },
     async getUserById(request, response) {
         const { id } = request.params
         let res = {}
@@ -87,7 +123,7 @@ module.exports = {
             .then(() => console.log("Database Connected"))
             .then(() => 
                 database.query(
-                    "INSERT INTO users(name, email, password, address, document, birthday, image) VALUES($1,$2,$3,$4,$5,$6,$7)",
+                    "INSERT INTO users(name, email, password, address, document, birthday, image, is_store) VALUES($1,$2,$3,$4,$5,$6,$7,$8)",
                     [
                         name,
                         email,
@@ -95,7 +131,8 @@ module.exports = {
                         address,
                         document,
                         birthday,
-                        image
+                        image,
+                        is_store
                     ]
                 )
             )
