@@ -6,9 +6,11 @@ const IncidentController = require('./controllers/IncidentController')
 const ProfileController = require('./controllers/ProfileController')
 const SessionController = require('./controllers/SessionController')
 const UsersController = require('./controllers/UsersController')
-const ProductsCategories = require('./controllers/ProductsCategoriesController')
+const ProductsController = require('./controllers/ProductsController')
+const ProductsCategoriesController = require('./controllers/ProductsCategoriesController')
 
 const routes = express.Router();
+
 
 routes.get('/users', UsersController.getUsers)
 
@@ -37,20 +39,66 @@ routes.post('/users/add', celebrate({
 }), UsersController.addUser)
 
 
-routes.get('/products/categories', ProductsCategories.getProductsCategories)
+routes.get('/products', ProductsController.getProducts)
+
+routes.get('/products/id/:id', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        id: Joi.number().required(),
+    })
+}), ProductsController.getProductById)
+
+routes.get('/products/category/:category_id', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        category_id: Joi.number().required(),
+    })
+}), ProductsController.getProductByCategory)
+
+routes.get('/products/owner/:owner_id', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        owner_id: Joi.number().required(),
+    })
+}), ProductsController.getProductByOwner)
+
+routes.post('/products/add', celebrate({
+    [Segments.BODY]: Joi.object().keys({
+        category_id: Joi.number().required(),
+        title: Joi.string().required().max(32),
+        price: Joi.number().required(),
+        description: Joi.string().default(""),
+        image: Joi.string().max(36).default("default_product.jpg"),
+        current_stock: Joi.number().default(0),
+        minimun_stock: Joi.number().default(0),
+        owner_id: Joi.number().required()
+    })
+}), ProductsController.addProduct)
+
+routes.post('/products/update_stock/:id/:new_value', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        id: Joi.number().required(),
+        new_value: Joi.number().required()
+    })
+}), ProductsController.updateProductStock)
+
+
+routes.get('/products/categories', ProductsCategoriesController.getProductsCategories)
 
 routes.get('/products/categories/id/:id', celebrate({
     [Segments.PARAMS]: Joi.object().keys({
         id: Joi.number().required(),
     })
-}), ProductsCategories.getProductCategoryById)
+}), ProductsCategoriesController.getProductCategoryById)
 
 routes.post('/products/categories/add', celebrate({
     [Segments.BODY]: Joi.object().keys({
         title: Joi.string().required().max(32),
         description: Joi.string().required()
     })
-}), ProductsCategories.addProductCategory)
+}), ProductsCategoriesController.addProductCategory)
+
+
+
+
+
 
 
 
