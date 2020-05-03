@@ -5,23 +5,23 @@ const OngController = require('./controllers/OngController')
 const IncidentController = require('./controllers/IncidentController')
 const ProfileController = require('./controllers/ProfileController')
 const SessionController = require('./controllers/SessionController')
-const ClientController = require('./controllers/ClientController')
+const UsersController = require('./controllers/UsersController')
 
 const routes = express.Router();
 
-routes.get('/users', ClientController.getUsers)
+routes.get('/users', UsersController.getUsers)
 
 routes.get('/users/id/:id', celebrate({
     [Segments.PARAMS]: Joi.object().keys({
         id: Joi.number().required(),
     })
-}), ClientController.getUserById)
+}), UsersController.getUserById)
 
 routes.get('/users/email/:email', celebrate({
     [Segments.PARAMS]: Joi.object().keys({
         email: Joi.string().required(),
     })
-}), ClientController.getUserByEmail)
+}), UsersController.getUserByEmail)
 
 routes.post('/users/add', celebrate({
     [Segments.BODY]: Joi.object().keys({
@@ -33,7 +33,7 @@ routes.post('/users/add', celebrate({
         birthday: Joi.string().min(10).max(10),
         image: Joi.string().max(20).default("default.jpg")
     })
-}), ClientController.addUser)
+}), UsersController.addUser)
 
 
 
