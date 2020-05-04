@@ -1,4 +1,5 @@
 const { Client } = require('pg')
+const { celebrate, Segments, Joi } = require('celebrate')
 
 module.exports = {
   async getCartByClient(request, response) {
@@ -12,7 +13,7 @@ module.exports = {
     database
     .connect()
     .then(() => console.log("Database Connected"))
-    .then(() => database.query('SELECT * FROM shopping_cart WHERE client_id = $1 ORDER BY id', [client_id]))
+    .then(() => database.query('SELECT shopping_cart.id, shopping_cart.client_id, shopping_cart.store_id, shopping_cart.quantity, products.title, products.price, products.description, products.image, products.current_stock, shopping_cart.created_at FROM shopping_cart JOIN products ON shopping_cart.product_id = products.id WHERE client_id = $1 ORDER BY id;', [client_id]))
     .then(results => res['cart'] = results.rows)
     .catch(e => console.log("Database Error: ", e))
     .finally(() => {
@@ -27,6 +28,8 @@ module.exports = {
         product_id,
         quantity
     } = request.body;
+
+    //let item = JSON.parse(get)
 
     let res = {}
 
