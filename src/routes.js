@@ -137,7 +137,7 @@ routes.post('/products/categories/add', celebrate({
 
 routes.get('/cart/:client_id', celebrate({
     [Segments.PARAMS]: Joi.object().keys({
-        client_id: Joi.number().required(),
+        client_id: Joi.number().required()
     })
 }), ShoppingCartController.getCartByClient)
 

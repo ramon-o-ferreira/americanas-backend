@@ -12,7 +12,7 @@ module.exports = {
     database
     .connect()
     .then(() => console.log("Database Connected"))
-    .then(() => database.query('SELECT * FROM shopping_cart WHERE client_id = $1 ORDER BY id'), [client_id])
+    .then(() => database.query('SELECT * FROM shopping_cart WHERE client_id = $1 ORDER BY id', [client_id]))
     .then(results => res['cart'] = results.rows)
     .catch(e => console.log("Database Error: ", e))
     .finally(() => {
