@@ -70,7 +70,7 @@ routes.post('/orders/add', celebrate({
     [Segments.BODY]: Joi.object().keys({
         client_id: Joi.number().required(),
         store_id: Joi.number().required(),
-        order_list: Joi.string().require()
+        order_list: Joi.string().required()
     })
 }), OrdersController.addOrder)
 
