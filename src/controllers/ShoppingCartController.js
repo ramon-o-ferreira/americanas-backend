@@ -29,8 +29,6 @@ module.exports = {
         quantity
     } = request.body;
 
-    //let item = JSON.parse(get)
-
     let res = {}
 
     const database = new Client({
@@ -40,6 +38,18 @@ module.exports = {
     database
         .connect()
         .then(() => console.log("Database Connected"))
+        .then(() => database.query("SELECT * FROM shopping_cart WHERE client_id = $1 AND product_id = $2", [client_id, product_id]))
+        .then(results => {
+            if(results.rows[0]) {
+                database.query("UPDATE shopping_cart SET quantity = $1 WHERE client_id = $2 AND product_id = $3", [
+                    results.rows[0]['quantity'] + quantity,
+                    client_id,
+                    product_id
+                ])
+                res['status'] = "OK"
+                return response.json(res)
+            }
+        })
         .then(() => 
             database.query(
                 "INSERT INTO shopping_cart(client_id, store_id, product_id, quantity) VALUES($1,$2,$3,$4)",
