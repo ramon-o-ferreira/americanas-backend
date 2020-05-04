@@ -3,6 +3,7 @@ const { celebrate, Segments, Joi } = require('celebrate')
 
 const OngController = require('./controllers/OngController')
 const IncidentController = require('./controllers/IncidentController')
+const OrdersController = require('./controllers/OrdersController')
 const ProfileController = require('./controllers/ProfileController')
 const SessionController = require('./controllers/SessionController')
 const UsersController = require('./controllers/UsersController')
@@ -17,6 +18,8 @@ routes.get('/users', UsersController.getUsers)
 routes.get('/users/stores', UsersController.getStores)
 
 routes.get('/users/clients', UsersController.getClients)
+
+routes.get('/orders', OrdersController.getOrders)
 
 routes.get('/users/id/:id', celebrate({
     [Segments.PARAMS]: Joi.object().keys({
@@ -42,6 +45,38 @@ routes.post('/users/add', celebrate({
         is_store: Joi.boolean().default(false)
     })
 }), UsersController.addUser)
+
+routes.get('/orders/client_id/:client_id', celebrate({
+    [Segments.PARAMS]: join.object().keys({
+        client_id: Joi.number().required(),
+    })
+}),OrdersController.getOrderByClient)
+
+routes.get('/orders/store_id/:store_id', celebrate({
+    [Segments.PARAMS]: join.object().keys({
+        store_id: Joi.number().required(),
+    })
+}),OrdersController.getOrderByStore)
+
+routes.get('/orders/status/:status', celebrate({
+    [Segments.PARAMS]: join.object().keys({
+        status: Joi.string().required(),
+    })
+}),OrdersController.getOrderByStatus)
+
+routes.post('/orders/add', celebrate({
+    [Segments.BODY]: Joi.object().keys({
+        client_id: Joi.number().required(),
+        store_id: Joi.number().required(),
+        status: Joi.string().required(),
+    })
+}), OrdersController.addOrder)
+
+routes.delete('/orders/:id', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        id: Joi.number().required(),
+    })
+}), OrdersController.deleteOrder)
 
 
 routes.get('/products', ProductsController.getProducts)
@@ -99,6 +134,9 @@ routes.post('/products/categories/add', celebrate({
         description: Joi.string().required()
     })
 }), ProductsCategoriesController.addProductCategory)
+
+
+
 
 
 
