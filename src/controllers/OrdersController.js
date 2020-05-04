@@ -98,7 +98,7 @@ module.exports = {
                 [
                   client_id,
                   store_id,
-                  order_list
+                  JSON.stringify(order_list)
                 ]
             )
         )
