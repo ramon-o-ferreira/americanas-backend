@@ -1,15 +1,12 @@
 const express = require('express');
 const { celebrate, Segments, Joi } = require('celebrate')
 
-const OngController = require('./controllers/OngController')
-const IncidentController = require('./controllers/IncidentController')
-const OrdersController = require('./controllers/OrdersController')
-const ProfileController = require('./controllers/ProfileController')
-const SessionController = require('./controllers/SessionController')
 const UsersController = require('./controllers/UsersController')
+const OrdersController = require('./controllers/OrdersController')
 const ProductsController = require('./controllers/ProductsController')
 const ProductsCategoriesController = require('./controllers/ProductsCategoriesController')
 const DistanceController = require('./controllers/DistanceController')
+const ShoppingCartController = require('./controllers/ShoppingCartController')
 
 const routes = express.Router();
 
@@ -19,8 +16,6 @@ routes.get('/users', UsersController.getUsers)
 routes.get('/users/stores', UsersController.getStores)
 
 routes.get('/users/clients', UsersController.getClients)
-
-routes.get('/orders', OrdersController.getOrders)
 
 routes.get('/users/id/:id', celebrate({
     [Segments.PARAMS]: Joi.object().keys({
@@ -47,6 +42,8 @@ routes.post('/users/add', celebrate({
     })
 }), UsersController.addUser)
 
+
+routes.get('/orders', OrdersController.getOrders)
 
 routes.get('/orders/client_id/:client_id', celebrate({
     [Segments.PARAMS]: Joi.object().keys({
@@ -138,18 +135,47 @@ routes.post('/products/categories/add', celebrate({
 }), ProductsCategoriesController.addProductCategory)
 
 
+routes.get('/cart/:client_id', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        client_id: Joi.number().required(),
+    })
+}), ShoppingCartController.getCartByClient)
+
+routes.post('/cart/add', celebrate({
+    [Segments.BODY]: Joi.object().keys({
+        client_id: Joi.number().required(),
+        store_id: Joi.number().required(),
+        product_id: Joi.number().required(),
+        quantity: Joi.number().default(1)
+    })
+}), ShoppingCartController.addItemToCart)
+
+routes.post('/cart/update_quantity', celebrate({
+    [Segments.BODY]: Joi.object().keys({
+        id: Joi.number().required(),
+        quantity: Joi.number().required()
+    })
+}), ShoppingCartController.updateQuantity)
+
+routes.delete('/cart/delete_by_id/:id', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        id: Joi.number().required(),
+    })
+}), ShoppingCartController.deleteItemById)
+
+routes.delete('/cart/delete_by_client/:client_id', celebrate({
+    [Segments.PARAMS]: Joi.object().keys({
+        client_id: Joi.number().required(),
+    })
+}), ShoppingCartController.deleteItemByClient)
+
+
 routes.post('/distance', celebrate({
     [Segments.BODY]: Joi.object().keys({
         from: Joi.string().required(),
         to: Joi.string().required()
     })
 }), DistanceController.getDistance)
-
-
-
-
-
-
 
 
 
