@@ -176,3 +176,5 @@ routes.post('/distance', celebrate({
         to: Joi.string().required()
     })
 }), DistanceController.getDistance)
+
+module.exports = routes;
