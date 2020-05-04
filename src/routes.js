@@ -49,19 +49,19 @@ routes.post('/users/add', celebrate({
 
 
 routes.get('/orders/client_id/:client_id', celebrate({
-    [Segments.PARAMS]: join.object().keys({
+    [Segments.PARAMS]: Joi.object().keys({
         client_id: Joi.number().required(),
     })
 }),OrdersController.getOrderByClient)
 
 routes.get('/orders/store_id/:store_id', celebrate({
-    [Segments.PARAMS]: join.object().keys({
+    [Segments.PARAMS]: Joi.object().keys({
         store_id: Joi.number().required(),
     })
 }),OrdersController.getOrderByStore)
 
 routes.get('/orders/status/:status', celebrate({
-    [Segments.PARAMS]: join.object().keys({
+    [Segments.PARAMS]: Joi.object().keys({
         status: Joi.string().required().max(9),
     })
 }),OrdersController.getOrderByStatus)

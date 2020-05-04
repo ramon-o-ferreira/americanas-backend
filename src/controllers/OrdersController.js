@@ -80,7 +80,7 @@ module.exports = {
     const {
         client_id,
         store_id,
-        order
+        order_list
     } = request.body;
 
     let res = {}
@@ -94,11 +94,11 @@ module.exports = {
         .then(() => console.log("Database Connected"))
         .then(() => 
             database.query(
-                "INSERT INTO users(client_id, store_id, order) VALUES($1,$2,$3)",
+                "INSERT INTO orders(client_id, store_id, order_list) VALUES($1,$2,$3)",
                 [
                   client_id,
                   store_id,
-                  order
+                  order_list
                 ]
             )
         )
