@@ -20,6 +20,7 @@ module.exports = {
     })
   },
   async getOrderByClient(request, response) {
+    const { client_id } = request.params
     let res = {}
 
     const database = new Client({
@@ -38,6 +39,7 @@ module.exports = {
       })
   },
   async getOrderByStore(request, response) {
+    const { store_id } = request.params
     let res = {}
 
     const database = new Client({
@@ -56,6 +58,7 @@ module.exports = {
     })
   },
   async getOrderByStatus(request, response) {
+    const { status } = request.params
     let res = {}
 
     const database = new Client({
@@ -65,7 +68,7 @@ module.exports = {
     database
     .connect()
     .then(() => console.log("Database Connected"))
-    .then(() => database.query('SELECT * FROM orders WHERE status = "PENDING"'))
+    .then(() => database.query('SELECT * FROM orders WHERE status = $1', [status]))
     .then(results => res['orders'] = results.rows)
     .catch(e => console.log("Database Error: ", e))
     .finally(() => {
@@ -112,6 +115,7 @@ module.exports = {
         })
   },
   async deleteOrder(request, response) {
+    const { id } = request.params
     let res = {}
 
     const database = new Client({
@@ -121,12 +125,17 @@ module.exports = {
     database
     .connect()
     .then(() => console.log("Database Connected"))
-    .then(() => database.query('DELETE * FROM orders WHERE id = $1'))
-    .then(results => res['orders'] = results.rows)
-    .catch(e => console.log("Database Error: ", e))
+    .then(() => database.query('DELETE FROM orders WHERE id = $1', [id]))
+    .then(() => {
+        res['status'] = "OK"
+    })
+    .catch(e => {
+        res['status'] = "FAIL"
+        console.log("Database Error: ", e)
+    })
     .finally(() => {
         database.end()
         return response.json(res)
     })
-  },
+  }
 }

@@ -47,6 +47,7 @@ routes.post('/users/add', celebrate({
     })
 }), UsersController.addUser)
 
+
 routes.get('/orders/client_id/:client_id', celebrate({
     [Segments.PARAMS]: join.object().keys({
         client_id: Joi.number().required(),
@@ -61,7 +62,7 @@ routes.get('/orders/store_id/:store_id', celebrate({
 
 routes.get('/orders/status/:status', celebrate({
     [Segments.PARAMS]: join.object().keys({
-        status: Joi.string().required(),
+        status: Joi.string().required().max(9),
     })
 }),OrdersController.getOrderByStatus)
 
@@ -69,7 +70,7 @@ routes.post('/orders/add', celebrate({
     [Segments.BODY]: Joi.object().keys({
         client_id: Joi.number().required(),
         store_id: Joi.number().required(),
-        status: Joi.string().required(),
+        order_list: Joi.json().required()
     })
 }), OrdersController.addOrder)
 
