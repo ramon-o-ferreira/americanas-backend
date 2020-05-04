@@ -1,11 +1,13 @@
 const { Client } = require('pg')
+const encode = 'utf8'
 
 module.exports = {
     async getProductsCategories(request, response) {
         let res = {}
 
         const database = new Client({
-            connectionString: process.env.DATABASE_URL
+            connectionString: process.env.DATABASE_URL,
+            client_encoding: encode
         })
 
         database
@@ -16,7 +18,11 @@ module.exports = {
             .catch(e => console.log("Database Error: ", e))
             .finally(() => {
                 database.end()
-                return response.json(res)
+                
+                response.set('Content-Type', 'application/json; charset=iso-8859-1')
+                json = JSON.stringify(res)
+                jsonBuffer = Buffer.from(json, 'latin1')
+                return response.send(jsonBuffer)
             })
     },
     async getProductCategoryById(request, response) {
@@ -24,7 +30,8 @@ module.exports = {
         let res = {}
 
         const database = new Client({
-            connectionString: process.env.DATABASE_URL
+            connectionString: process.env.DATABASE_URL,
+            client_encoding: encode
         })
 
         database
@@ -39,7 +46,11 @@ module.exports = {
             .catch(e => console.log("Database Error: ", e))
             .finally(() => {
                 database.end()
-                return response.json(res)
+                
+                response.set('Content-Type', 'application/json; charset=iso-8859-1')
+                json = JSON.stringify(res)
+                jsonBuffer = Buffer.from(json, 'latin1')
+                return response.send(jsonBuffer)
             })
     },
     async addProductCategory(request, response) {
@@ -51,7 +62,8 @@ module.exports = {
         let res = {}
 
         const database = new Client({
-            connectionString: process.env.DATABASE_URL
+            connectionString: process.env.DATABASE_URL,
+            client_encoding: encode
         })
 
         database
@@ -75,7 +87,11 @@ module.exports = {
             })
             .finally(() => {
                 database.end()
-                return response.json(res)
+                
+                response.set('Content-Type', 'application/json; charset=iso-8859-1')
+                json = JSON.stringify(res)
+                jsonBuffer = Buffer.from(json, 'latin1')
+                return response.send(jsonBuffer)
             })
     }
 }
