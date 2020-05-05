@@ -29,6 +29,8 @@ module.exports = {
         quantity
     } = request.body;
 
+    let productExists = false
+
     let res = {}
 
     const database = new Client({
@@ -46,21 +48,22 @@ module.exports = {
                     client_id,
                     product_id
                 ])
-                res['status'] = "OK"
-                return response.json(res)
+                productExists = true
             }
         })
-        .then(() => 
-            database.query(
-                "INSERT INTO shopping_cart(client_id, store_id, product_id, quantity) VALUES($1,$2,$3,$4)",
-                [
-                  client_id,
-                  store_id,
-                  product_id,
-                  quantity
-                ]
-            )
-        )
+        .then(() => {
+            if(productExists == false) {
+                database.query(
+                    "INSERT INTO shopping_cart(client_id, store_id, product_id, quantity) VALUES($1,$2,$3,$4)",
+                    [
+                    client_id,
+                    store_id,
+                    product_id,
+                    quantity
+                    ]
+                )
+            }
+        })
         .then(() => {
             res['status'] = "OK"
         })
